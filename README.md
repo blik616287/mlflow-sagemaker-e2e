@@ -1,6 +1,6 @@
 # MLflow on AWS, end to end
 
-Provisions a managed MLflow tracking server in the `spectro` account, logs two
+Provisions a managed MLflow tracking server in your AWS account, logs two
 real bake-offs into it, screenshots the UI showing runs and model comparison,
 writes a report, and tears the whole thing down again. One command per phase,
 nothing manual, repeatable on demand.
@@ -8,6 +8,10 @@ nothing manual, repeatable on demand.
 The point is not the models. The point is that "do you have MLflow running,
 with output comparing models" has a reproducible answer that takes about an
 hour and a dollar to regenerate from scratch.
+
+> **[Read the results →](RESULTS.md)** — both bake-off tables, the twelve UI
+> screen grabs, measured cost, the seven things that broke on the way, and
+> primary-source citations for every figure.
 
 ## What gets built
 
