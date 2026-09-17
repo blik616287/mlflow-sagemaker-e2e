@@ -1,0 +1,19 @@
+# Output of `make shots-dry` — the capture plan resolved against a live
+# tracking server, printing the URL each shot will visit without opening a
+# browser. Captured 2026-09-17T21:14:20Z against MLflow 3.0.0.
+#
+# The host is elided; the route after the '#' is what shots.yaml produces
+# once the run ids of the just-logged runs are substituted in.
+
+01-experiments-list                    #/experiments/1
+02-tabular-runs-table                  #/experiments/1?orderByKey=metrics.%60roc_auc%60&orderByAsc=false
+03-tabular-compare-parallel-coordinates #/compare-runs?runs=%5B%2213c8a9e64c134bdd88e05904a128e83f%22%2C%20%22fbc2f051bcc44c92961fd8a9640bb31c%22%2C%20%22e43accfeeba84893975806df4ff9baad%22%2C%20%22a5b697774362426fabde8e6aa33ac388%22%2C%20%22fc92bebc6a7d4bedac60d3a90e7f765e%22%2C%20%220c3c830ac44544a781b17652b7be2e57%22%2C%20%222bbc349f6edb422faa9ce316b2a6ed1e%22%2C%20%229413ef51ef3840acbc26369644410547%22%5D&experiments=%5B%221%22%5D
+04-tabular-compare-scatter             #/compare-runs?runs=%5B%2213c8a9e64c134bdd88e05904a128e83f%22%2C%20%22fbc2f051bcc44c92961fd8a9640bb31c%22%2C%20%22e43accfeeba84893975806df4ff9baad%22%2C%20%22a5b697774362426fabde8e6aa33ac388%22%2C%20%22fc92bebc6a7d4bedac60d3a90e7f765e%22%2C%20%220c3c830ac44544a781b17652b7be2e57%22%2C%20%222bbc349f6edb422faa9ce316b2a6ed1e%22%2C%20%229413ef51ef3840acbc26369644410547%22%5D&experiments=%5B%221%22%5D
+05-tabular-metric-chart                #/experiments/1?compareRunsMode=CHART
+06-tabular-best-run                    #/experiments/1/runs/13c8a9e64c134bdd88e05904a128e83f
+07-tabular-artifact-roc                #/experiments/1/runs/13c8a9e64c134bdd88e05904a128e83f/artifacts/plots/roc_curve.png
+08-model-registry                      #/models
+09-model-version                       #/models/jreq-tabular/versions/1
+10-router-runs-table                   #/experiments/2?orderByKey=metrics.%60quality_score%60&orderByAsc=false
+11-router-compare                      #/compare-runs?runs=%5B%22cce4da6ee71240c3a043b71f124131e2%22%2C%20%22b2319ce8bd7c4646b3d79c5d9912382e%22%2C%20%22972d1c3397cb41fdad3f9f1f701cd7b7%22%2C%20%222b4b29f896084ff994cbc3d5d37c18c1%22%2C%20%229e1b85ac95204325b857070372b71671%22%2C%20%22bffe5a8e13f340819b84a7236e65feba%22%5D&experiments=%5B%222%22%5D
+12-router-frontier                     #/experiments/2/runs/2d364d8ae0604d2c8aab5699eb82b5fc/artifacts/plots/cost_vs_quality.png

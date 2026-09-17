@@ -6,6 +6,7 @@
 #   make shots                      screenshot the MLflow UI
 #   make report                     render artifacts/REPORT.md
 #   make down                       stop the server (billing stops, data kept)
+#   make start                      restart a stopped server (runs/artifacts intact)
 #   make destroy EXECUTE=--execute  remove everything
 #   make all EXECUTE=--execute      up -> seed -> shots -> report
 #
@@ -125,6 +126,30 @@ down:
 	  --tracking-server-name $$($(TF) output -raw tracking_server_name) \
 	  --profile $(AWS_PROFILE) --region $(AWS_REGION)
 	@echo "stopped; billing for compute ends, runs and artifacts are kept."
+
+.PHONY: start
+start:
+	@name=$$($(TF) output -raw tracking_server_name); \
+	status=$$(aws sagemaker describe-mlflow-tracking-server --tracking-server-name $$name \
+	          --profile $(AWS_PROFILE) --region $(AWS_REGION) \
+	          --query TrackingServerStatus --output text); \
+	case "$$status" in Created|Started) echo "already running ($$status)."; exit 0;; esac; \
+	if [ "$$status" != "Stopped" ]; then \
+	  echo "cannot start from status $$status; wait for Stopped."; exit 1; \
+	fi; \
+	aws sagemaker start-mlflow-tracking-server --tracking-server-name $$name \
+	  --profile $(AWS_PROFILE) --region $(AWS_REGION) >/dev/null; \
+	echo "starting; compute billing resumes now"; \
+	while :; do \
+	  s=$$(aws sagemaker describe-mlflow-tracking-server --tracking-server-name $$name \
+	       --profile $(AWS_PROFILE) --region $(AWS_REGION) \
+	       --query TrackingServerStatus --output text); \
+	  case "$$s" in \
+	    Created|Started) echo "running ($$s)."; break;; \
+	    *Failed) echo "terminal status $$s"; exit 1;; \
+	    *) echo "  $$s ..."; sleep 20;; \
+	  esac; \
+	done
 
 .PHONY: destroy
 destroy:
