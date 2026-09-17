@@ -1,0 +1,20 @@
+# Copy to terraform.tfvars and edit before the first apply.
+
+aws_profile = "spectro"
+region      = "us-east-2"
+
+# Strongly recommended: pin the account so a stale profile cannot build here.
+# `make check` prints the account id to paste in.
+expected_account_id = ""
+
+# Small is ~$0.642/hr while running, $0 while stopped.
+tracking_server_size = "Small"
+
+# Leave empty to accept the service default for the region.
+mlflow_version = ""
+
+artifact_retention_days = 30
+
+# Only if `make check` reports the caller cannot reach the tracking server.
+create_operator_policy = false
+operator_principal_arn = ""

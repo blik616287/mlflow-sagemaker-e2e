@@ -1,0 +1,27 @@
+---
+- name: Ensure the chromium build Playwright expects is present
+  ansible.builtin.command:
+    cmd: "{{ venv }}/bin/playwright install chromium"
+    chdir: "{{ repo_root }}"
+  register: browser_install
+  changed_when: "'downloaded' in (browser_install.stdout | lower)"
+
+- name: Resolve the tracking uri
+  ansible.builtin.command:
+    cmd: terraform -chdir=terraform output -raw tracking_server_arn
+    chdir: "{{ repo_root }}"
+  register: tracking_uri
+  changed_when: false
+
+- name: Capture the MLflow UI
+  ansible.builtin.command:
+    cmd: "{{ venv }}/bin/python capture/shoot.py"
+    chdir: "{{ repo_root }}"
+  environment:
+    MLFLOW_TRACKING_URI: "{{ tracking_uri.stdout | trim }}"
+  register: capture
+  changed_when: true
+
+- name: Show the capture log
+  ansible.builtin.debug:
+    msg: "{{ capture.stdout_lines }}"

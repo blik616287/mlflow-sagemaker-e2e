@@ -1,0 +1,31 @@
+---
+# End-to-end driver. Every phase is tagged, so the whole cycle runs with
+#
+#   ansible-playbook -i ansible/inventory.ini ansible/site.yml -e execute=true
+#
+# and any single phase runs with --tags <phase>. Nothing that creates or
+# deletes AWS resources runs unless execute=true is passed explicitly.
+
+- name: MLflow on AWS, provisioned through capture to teardown
+  hosts: local
+  gather_facts: true
+
+  vars:
+    repo_root: "{{ playbook_dir }}/.."
+    aws_profile: "{{ lookup('env', 'AWS_PROFILE') | default('spectro', true) }}"
+    aws_region: "{{ lookup('env', 'AWS_REGION') | default('us-east-2', true) }}"
+    execute: false
+    teardown: false
+    venv: "{{ playbook_dir }}/../.venv"
+
+  environment:
+    AWS_PROFILE: "{{ aws_profile }}"
+    AWS_REGION: "{{ aws_region }}"
+
+  roles:
+    - {role: preflight,   tags: [preflight, always]}
+    - {role: provision,   tags: [provision]}
+    - {role: experiments, tags: [experiments]}
+    - {role: capture,     tags: [capture]}
+    - {role: report,      tags: [report]}
+    - {role: teardown,    tags: [teardown, never]}

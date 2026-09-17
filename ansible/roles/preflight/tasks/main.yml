@@ -1,0 +1,20 @@
+---
+- name: Run the read-only preflight
+  ansible.builtin.command:
+    cmd: ./bin/preflight.sh
+    chdir: "{{ repo_root }}"
+  register: preflight
+  changed_when: false
+
+- name: Show the preflight result
+  ansible.builtin.debug:
+    msg: "{{ preflight.stdout_lines }}"
+
+- name: Refuse to continue into a creating phase without execute=true
+  ansible.builtin.assert:
+    that: execute | bool
+    fail_msg: >-
+      CONFIG_REQUIRED: this playbook creates billable AWS resources.
+      Re-run with -e execute=true once you have read the cost line above.
+    success_msg: "execute=true acknowledged"
+  when: "'provision' in ansible_run_tags or 'teardown' in ansible_run_tags or ansible_run_tags == ['all']"

@@ -1,0 +1,158 @@
+{
+  "captured_at": "2026-09-17T14:29:38-0500",
+  "tracking_uri": "arn:aws:sagemaker:us-east-2:<account>:mlflow-tracking-server/jreq-mlflow-fe55e8",
+  "region": "us-east-2",
+  "context": {
+    "tabular_exp_id": "1",
+    "tabular_exp_list": "%5B%221%22%5D",
+    "tabular_best_run_id": "13c8a9e64c134bdd88e05904a128e83f",
+    "tabular_compare_runs": "%5B%2213c8a9e64c134bdd88e05904a128e83f%22%2C%20%22fbc2f051bcc44c92961fd8a9640bb31c%22%2C%20%22e43accfeeba84893975806df4ff9baad%22%2C%20%22a5b697774362426fabde8e6aa33ac388%22%2C%20%22fc92bebc6a7d4bedac60d3a90e7f765e%22%2C%20%220c3c830ac44544a781b17652b7be2e57%22%2C%20%222bbc349f6edb422faa9ce316b2a6ed1e%22%2C%20%229413ef51ef3840acbc26369644410547%22%5D",
+    "registered_model": "jreq-tabular",
+    "registered_version": "1",
+    "router_exp_id": "2",
+    "router_exp_list": "%5B%222%22%5D",
+    "router_compare_runs": "%5B%22cce4da6ee71240c3a043b71f124131e2%22%2C%20%22b2319ce8bd7c4646b3d79c5d9912382e%22%2C%20%22972d1c3397cb41fdad3f9f1f701cd7b7%22%2C%20%222b4b29f896084ff994cbc3d5d37c18c1%22%2C%20%229e1b85ac95204325b857070372b71671%22%2C%20%22bffe5a8e13f340819b84a7236e65feba%22%5D",
+    "router_summary_run_id": "2d364d8ae0604d2c8aab5699eb82b5fc"
+  },
+  "shots": [
+    {
+      "id": "01-experiments-list",
+      "title": "Experiments \u2014 both bake-offs, tabular selected",
+      "required": true,
+      "notes": [],
+      "url": "https://t-59bihot0cctb.us-east-2.experiments.sagemaker.aws/#/experiments/1",
+      "status": "ok",
+      "path": "artifacts/screenshots/01-experiments-list.png",
+      "bytes": 394030
+    },
+    {
+      "id": "02-tabular-runs-table",
+      "title": "Tabular bake-off runs, sorted by ROC AUC",
+      "required": true,
+      "notes": [],
+      "url": "https://t-59bihot0cctb.us-east-2.experiments.sagemaker.aws/#/experiments/1?orderByKey=metrics.%60roc_auc%60&orderByAsc=false",
+      "status": "ok",
+      "path": "artifacts/screenshots/02-tabular-runs-table.png",
+      "bytes": 400660
+    },
+    {
+      "id": "03-tabular-compare-parallel-coordinates",
+      "title": "Compare runs \u2014 parallel coordinates",
+      "required": true,
+      "notes": [
+        "clicked 'Parallel Coordinates Plot'",
+        "clicked 'Parallel coordinates'"
+      ],
+      "url": "https://t-59bihot0cctb.us-east-2.experiments.sagemaker.aws/#/compare-runs?runs=%5B%2213c8a9e64c134bdd88e05904a128e83f%22%2C%20%22fbc2f051bcc44c92961fd8a9640bb31c%22%2C%20%22e43accfeeba84893975806df4ff9baad%22%2C%20%22a5b697774362426fabde8e6aa33ac388%22%2C%20%22fc92bebc6a7d4bedac60d3a90e7f765e%22%2C%20%220c3c830ac44544a781b17652b7be2e57%22%2C%20%222bbc349f6edb422faa9ce316b2a6ed1e%22%2C%20%229413ef51ef3840acbc26369644410547%22%5D&experiments=%5B%221%22%5D",
+      "status": "ok",
+      "path": "artifacts/screenshots/03-tabular-compare-parallel-coordinates.png",
+      "bytes": 360445
+    },
+    {
+      "id": "04-tabular-compare-scatter",
+      "title": "Compare runs \u2014 ROC AUC against fit time",
+      "required": true,
+      "notes": [
+        "clicked 'Scatter Plot'",
+        "combobox[0] = 'fit_seconds'",
+        "combobox[1] = 'roc_auc'"
+      ],
+      "url": "https://t-59bihot0cctb.us-east-2.experiments.sagemaker.aws/#/compare-runs?runs=%5B%2213c8a9e64c134bdd88e05904a128e83f%22%2C%20%22fbc2f051bcc44c92961fd8a9640bb31c%22%2C%20%22e43accfeeba84893975806df4ff9baad%22%2C%20%22a5b697774362426fabde8e6aa33ac388%22%2C%20%22fc92bebc6a7d4bedac60d3a90e7f765e%22%2C%20%220c3c830ac44544a781b17652b7be2e57%22%2C%20%222bbc349f6edb422faa9ce316b2a6ed1e%22%2C%20%229413ef51ef3840acbc26369644410547%22%5D&experiments=%5B%221%22%5D",
+      "status": "ok",
+      "path": "artifacts/screenshots/04-tabular-compare-scatter.png",
+      "bytes": 227719
+    },
+    {
+      "id": "05-tabular-metric-chart",
+      "title": "Metric chart across runs",
+      "required": true,
+      "notes": [],
+      "url": "https://t-59bihot0cctb.us-east-2.experiments.sagemaker.aws/#/experiments/1?compareRunsMode=CHART",
+      "status": "ok",
+      "path": "artifacts/screenshots/05-tabular-metric-chart.png",
+      "bytes": 400571
+    },
+    {
+      "id": "06-tabular-best-run",
+      "title": "Winning run \u2014 parameters, metrics, dataset",
+      "required": true,
+      "notes": [],
+      "url": "https://t-59bihot0cctb.us-east-2.experiments.sagemaker.aws/#/experiments/1/runs/13c8a9e64c134bdd88e05904a128e83f",
+      "status": "ok",
+      "path": "artifacts/screenshots/06-tabular-best-run.png",
+      "bytes": 281537
+    },
+    {
+      "id": "07-tabular-artifact-roc",
+      "title": "Logged artifact \u2014 ROC curve",
+      "required": true,
+      "notes": [
+        "redacted account id in 2 node(s)"
+      ],
+      "url": "https://t-59bihot0cctb.us-east-2.experiments.sagemaker.aws/#/experiments/1/runs/13c8a9e64c134bdd88e05904a128e83f/artifacts/plots/roc_curve.png",
+      "status": "ok",
+      "path": "artifacts/screenshots/07-tabular-artifact-roc.png",
+      "bytes": 273818
+    },
+    {
+      "id": "08-model-registry",
+      "title": "Model registry",
+      "required": true,
+      "notes": [
+        "dismissed an overlay dialog",
+        "redacted account id in 1 node(s)"
+      ],
+      "url": "https://t-59bihot0cctb.us-east-2.experiments.sagemaker.aws/#/models",
+      "status": "ok",
+      "path": "artifacts/screenshots/08-model-registry.png",
+      "bytes": 148999
+    },
+    {
+      "id": "09-model-version",
+      "title": "Registered champion version",
+      "required": true,
+      "notes": [
+        "redacted account id in 1 node(s)"
+      ],
+      "url": "https://t-59bihot0cctb.us-east-2.experiments.sagemaker.aws/#/models/jreq-tabular/versions/1",
+      "status": "ok",
+      "path": "artifacts/screenshots/09-model-version.png",
+      "bytes": 183806
+    },
+    {
+      "id": "10-router-runs-table",
+      "title": "Router bake-off runs",
+      "required": true,
+      "notes": [],
+      "url": "https://t-59bihot0cctb.us-east-2.experiments.sagemaker.aws/#/experiments/2?orderByKey=metrics.%60quality_score%60&orderByAsc=false",
+      "status": "ok",
+      "path": "artifacts/screenshots/10-router-runs-table.png",
+      "bytes": 269828
+    },
+    {
+      "id": "11-router-compare",
+      "title": "Router variants compared \u2014 cost, latency, quality",
+      "required": true,
+      "notes": [
+        "clicked 'Parallel Coordinates Plot'",
+        "clicked 'Parallel coordinates'"
+      ],
+      "url": "https://t-59bihot0cctb.us-east-2.experiments.sagemaker.aws/#/compare-runs?runs=%5B%22cce4da6ee71240c3a043b71f124131e2%22%2C%20%22b2319ce8bd7c4646b3d79c5d9912382e%22%2C%20%22972d1c3397cb41fdad3f9f1f701cd7b7%22%2C%20%222b4b29f896084ff994cbc3d5d37c18c1%22%2C%20%229e1b85ac95204325b857070372b71671%22%2C%20%22bffe5a8e13f340819b84a7236e65feba%22%5D&experiments=%5B%222%22%5D",
+      "status": "ok",
+      "path": "artifacts/screenshots/11-router-compare.png",
+      "bytes": 312906
+    },
+    {
+      "id": "12-router-frontier",
+      "title": "Cost vs quality frontier",
+      "required": true,
+      "notes": [
+        "redacted account id in 2 node(s)"
+      ],
+      "url": "https://t-59bihot0cctb.us-east-2.experiments.sagemaker.aws/#/experiments/2/runs/2d364d8ae0604d2c8aab5699eb82b5fc/artifacts/plots/cost_vs_quality.png",
+      "status": "ok",
+      "path": "artifacts/screenshots/12-router-frontier.png",
+      "bytes": 307376
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+---
+- name: Terraform init
+  ansible.builtin.command:
+    cmd: terraform -chdir=terraform init -input=false
+    chdir: "{{ repo_root }}"
+  register: tf_init
+  changed_when: "'Terraform has been successfully initialized' in tf_init.stdout"
+
+- name: Terraform apply
+  ansible.builtin.command:
+    cmd: terraform -chdir=terraform apply -input=false -auto-approve
+    chdir: "{{ repo_root }}"
+  register: tf_apply
+  changed_when: "'Resources: 0 added, 0 changed, 0 destroyed' not in tf_apply.stdout"
+
+- name: Read stack outputs
+  ansible.builtin.command:
+    cmd: terraform -chdir=terraform output -json
+    chdir: "{{ repo_root }}"
+  register: tf_output
+  changed_when: false
+
+- name: Register outputs as facts
+  ansible.builtin.set_fact:
+    stack: "{{ tf_output.stdout | from_json | dict2items | items2dict(key_name='key', value_name='value') }}"
+
+- name: Wait for the tracking server to report Created
+  ansible.builtin.command:
+    cmd: >-
+      aws sagemaker describe-mlflow-tracking-server
+      --tracking-server-name {{ stack.tracking_server_name.value }}
+      --profile {{ aws_profile }} --region {{ aws_region }}
+      --query TrackingServerStatus --output text
+  register: server_status
+  changed_when: false
+  retries: 120
+  delay: 30
+  until: server_status.stdout | trim == 'Created'
+  failed_when: server_status.stdout | trim in ['CreateFailed', 'UpdateFailed', 'DeleteFailed']
+
+- name: Report the live tracking server
+  ansible.builtin.debug:
+    msg:
+      - "tracking server : {{ stack.tracking_server_name.value }}"
+      - "tracking uri    : {{ stack.tracking_server_arn.value }}"
+      - "artifact store  : {{ stack.artifact_store_uri.value }}"

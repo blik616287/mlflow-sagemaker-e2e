@@ -1,0 +1,37 @@
+---
+- name: Refuse to tear down without execute=true
+  ansible.builtin.assert:
+    that: execute | bool
+    fail_msg: "CONFIG_REQUIRED: pass -e execute=true to destroy AWS resources."
+
+- name: Read stack outputs
+  ansible.builtin.command:
+    cmd: terraform -chdir=terraform output -json
+    chdir: "{{ repo_root }}"
+  register: tf_output
+  changed_when: false
+
+- name: Sync the artifact store down before anything is deleted
+  ansible.builtin.command:
+    cmd: >-
+      aws s3 sync s3://{{ (tf_output.stdout | from_json).artifact_bucket.value }}/mlflow
+      artifacts/s3-mlflow --profile {{ aws_profile }} --region {{ aws_region }} --quiet
+    chdir: "{{ repo_root }}"
+  changed_when: true
+
+- name: Terraform destroy
+  ansible.builtin.command:
+    cmd: terraform -chdir=terraform destroy -input=false -auto-approve -var force_destroy=true
+    chdir: "{{ repo_root }}"
+  register: tf_destroy
+  changed_when: "'Destroy complete' in tf_destroy.stdout"
+
+- name: Verify no tracking server remains
+  ansible.builtin.command:
+    cmd: >-
+      aws sagemaker list-mlflow-tracking-servers
+      --profile {{ aws_profile }} --region {{ aws_region }}
+      --query 'TrackingServerSummaries[].TrackingServerName' --output text
+  register: remaining
+  changed_when: false
+  failed_when: remaining.stdout | trim != ''

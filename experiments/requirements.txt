@@ -1,0 +1,13 @@
+# Pinned loosely: this stack is rebuilt from scratch each run, so newest
+# compatible wheels are preferred over reproducing a months-old resolve.
+mlflow>=3.1,<4
+sagemaker-mlflow>=0.1.0
+boto3>=1.35
+botocore>=1.35
+scikit-learn>=1.5
+pandas>=2.2
+numpy>=1.26,<3
+matplotlib>=3.8
+xgboost>=2.1
+lightgbm>=4.5
+pyarrow>=17
