@@ -157,10 +157,20 @@ destroy:
 	@echo "syncing artifacts before destroy ..."
 	-aws s3 sync s3://$$($(TF) output -raw artifact_bucket)/mlflow artifacts/s3-mlflow \
 	  --profile $(AWS_PROFILE) --region $(AWS_REGION) --quiet
+	@echo "emptying the artifact bucket (all versions) ..."
+	@bucket=$$($(TF) output -raw artifact_bucket 2>/dev/null || true); \
+	if [ -n "$$bucket" ]; then $(PY) bin/empty-bucket.py "$$bucket"; \
+	else echo "  no bucket in state"; fi
 	$(TF) destroy -input=false -auto-approve -var force_destroy=true
 	@echo "verifying nothing is left ..."
-	@aws sagemaker list-mlflow-tracking-servers --profile $(AWS_PROFILE) --region $(AWS_REGION) \
-	  --query 'TrackingServerSummaries[].TrackingServerName' --output text
+	@left=$$(aws sagemaker list-mlflow-tracking-servers --profile $(AWS_PROFILE) --region $(AWS_REGION) \
+	         --query 'TrackingServerSummaries[].TrackingServerName' --output text); \
+	state=$$($(TF) state list 2>/dev/null | { grep -v '^data\.' || true; } | wc -l); \
+	if [ -n "$$left" ] || [ "$$state" -ne 0 ]; then \
+	  echo "DESTROY INCOMPLETE: servers=[$$left] terraform-managed-resources=$$state"; \
+	  exit 1; \
+	fi; \
+	echo "clean: no tracking servers, no managed resources in state."
 
 .PHONY: all
 all:

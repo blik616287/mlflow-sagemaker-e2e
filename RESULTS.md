@@ -166,7 +166,7 @@ bill no compute.
 ## What broke, and what the fixes were
 
 The interesting part of an end-to-end build is the list of things that did not work first
-time. All seven were found and fixed during this run.
+time. All nine were found and fixed during this run.
 
 1. **MLflow 3 refuses to serialize tree models by default.** `mlflow.sklearn.log_model`
    now defaults to `skops`, which rejects `sklearn.tree._tree.Tree` without an explicit trust
@@ -205,6 +205,25 @@ time. All seven were found and fixed during this run.
    already selected. And the Models pages raise a product-promo modal only after the registry
    data resolves — i.e. after `networkidle` — so dismissal had to move to just before the
    shutter.
+
+8. **`force_destroy` does not work when passed at destroy time.** Terraform's
+   `force_destroy` only empties a bucket if the provider saw the flag on the resource
+   *before* the destroy. `terraform destroy -var force_destroy=true` against a bucket
+   applied with `force_destroy = false` fails with `BucketNotEmpty: You must delete all
+   versions in the bucket` — and versioning is on, so there were 208 versions to trip over.
+   Teardown now empties the bucket explicitly via `bin/empty-bucket.py` first.
+
+9. **The teardown verification failed exactly when the teardown succeeded.** The Makefile
+   runs recipes under `set -o pipefail`, and the check counted surviving resources with
+   `terraform state list | grep -v '^data\.' | wc -l`. `grep` exits 1 when it matches
+   nothing — which an empty state guarantees — so `pipefail` turned a clean teardown into
+   a non-zero exit. The guard now tolerates the empty case.
+
+   Worth stating plainly: the *first* destroy reported exit 0 while leaving the server, the
+   bucket and the IAM role standing. That was two separate faults stacked — the original
+   verification only printed surviving resources rather than asserting on them, and the
+   invocation piped `make` through `tail`, so the observed exit code was `tail`'s. Both are
+   fixed; the lesson is that a teardown which cannot fail is not a verification.
 
 ---
 
