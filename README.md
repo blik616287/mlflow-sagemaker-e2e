@@ -25,6 +25,11 @@ ids of the runs that were just logged, mints a presigned UI URL, and drives each
 twelve views in [`capture/shots.yaml`](capture/shots.yaml). Nine are required-to-render:
 if one comes back empty or suspiciously small, the capture step fails and names it.
 
+`make shots-dry` prints the resolved URL for every shot without opening a browser —
+[`capture/example-dry-run.txt`](capture/example-dry-run.txt) is real output from a live
+server. Note it currently needs the server running, since it resolves run ids from
+MLflow; it is not usable to preview the plan before provisioning.
+
 The other eleven are in [`artifacts/screenshots/`](artifacts/screenshots/), with
 [`contact-sheet.png`](artifacts/contact-sheet.png) showing all of them at once.
 
