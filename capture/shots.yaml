@@ -1,0 +1,105 @@
+# Declarative screenshot plan. Placeholders in `route` are filled by shoot.py
+# from a live MLflow query, so the URLs always point at the runs that were just
+# logged rather than hard-coded ids.
+#
+#   required: true  -> a failure here fails the capture step
+#   click:          -> clicked in order after the route loads; `optional: true`
+#                      entries are allowed to be absent (UI wording moves
+#                      between MLflow versions)
+
+defaults:
+  viewport: {width: 1920, height: 1080}
+  settle_ms: 1200
+  full_page: false
+
+shots:
+  # MLflow 3 has no standalone #/experiments route (it 404s) and #/ redirects to
+  # the empty Default experiment. The experiment list lives in the sidebar, so
+  # this lands on the tabular experiment and asserts BOTH bake-offs are listed.
+  - id: "01-experiments-list"
+    title: "Experiments — both bake-offs, tabular selected"
+    route: "#/experiments/{tabular_exp_id}"
+    required: true
+    wait_for: ["text=jreq-router-bakeoff", "text=jreq-tabular-bakeoff"]
+    settle_ms: 2500
+
+  - id: "02-tabular-runs-table"
+    title: "Tabular bake-off runs, sorted by ROC AUC"
+    route: "#/experiments/{tabular_exp_id}?orderByKey=metrics.%60roc_auc%60&orderByAsc=false"
+    required: true
+    wait_for: ["text=lightgbm", "text=xgboost"]
+    settle_ms: 2500
+
+  - id: "03-tabular-compare-parallel-coordinates"
+    title: "Compare runs — parallel coordinates"
+    route: "#/compare-runs?runs={tabular_compare_runs}&experiments={tabular_exp_list}"
+    required: true
+    settle_ms: 2500
+    click:
+      - {text: "Parallel Coordinates Plot", optional: true}
+      - {text: "Parallel coordinates", optional: true}
+
+  - id: "04-tabular-compare-scatter"
+    title: "Compare runs — ROC AUC against fit time"
+    route: "#/compare-runs?runs={tabular_compare_runs}&experiments={tabular_exp_list}"
+    required: true
+    settle_ms: 2500
+    click:
+      - {text: "Scatter Plot", optional: true}
+    select:
+      - {index: 0, option: "fit_seconds"}
+      - {index: 1, option: "roc_auc"}
+
+  - id: "05-tabular-metric-chart"
+    title: "Metric chart across runs"
+    route: "#/experiments/{tabular_exp_id}?compareRunsMode=CHART"
+    required: true
+    settle_ms: 3500
+
+  - id: "06-tabular-best-run"
+    title: "Winning run — parameters, metrics, dataset"
+    route: "#/experiments/{tabular_exp_id}/runs/{tabular_best_run_id}"
+    required: true
+    wait_for: ["text=roc_auc"]
+
+  - id: "07-tabular-artifact-roc"
+    title: "Logged artifact — ROC curve"
+    route: "#/experiments/{tabular_exp_id}/runs/{tabular_best_run_id}/artifacts/plots/roc_curve.png"
+    required: true
+    settle_ms: 3000
+    wait_for: ["text=roc_curve.png"]
+
+  - id: "08-model-registry"
+    title: "Model registry"
+    route: "#/models"
+    required: true
+    wait_for: ["text={registered_model}"]
+
+  - id: "09-model-version"
+    title: "Registered champion version"
+    route: "#/models/{registered_model}/versions/{registered_version}"
+    required: true
+    settle_ms: 2000
+
+  - id: "10-router-runs-table"
+    title: "Router bake-off runs"
+    route: "#/experiments/{router_exp_id}?orderByKey=metrics.%60quality_score%60&orderByAsc=false"
+    required: true
+    wait_for: ["text=router::"]
+    settle_ms: 2500
+
+  - id: "11-router-compare"
+    title: "Router variants compared — cost, latency, quality"
+    route: "#/compare-runs?runs={router_compare_runs}&experiments={router_exp_list}"
+    required: true
+    settle_ms: 2500
+    click:
+      - {text: "Parallel Coordinates Plot", optional: true}
+      - {text: "Parallel coordinates", optional: true}
+
+  - id: "12-router-frontier"
+    title: "Cost vs quality frontier"
+    route: "#/experiments/{router_exp_id}/runs/{router_summary_run_id}/artifacts/plots/cost_vs_quality.png"
+    required: true
+    settle_ms: 3000
+    wait_for: ["text=cost_vs_quality.png"]

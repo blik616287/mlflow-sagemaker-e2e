@@ -1,0 +1,33 @@
+---
+- name: Resolve the tracking uri
+  ansible.builtin.command:
+    cmd: terraform -chdir=terraform output -raw tracking_server_arn
+    chdir: "{{ repo_root }}"
+  register: tracking_uri
+  changed_when: false
+
+- name: Render the report
+  ansible.builtin.command:
+    cmd: "{{ venv }}/bin/python bin/report.py"
+    chdir: "{{ repo_root }}"
+  environment:
+    MLFLOW_TRACKING_URI: "{{ tracking_uri.stdout | trim }}"
+  register: report
+  changed_when: true
+
+- name: Confirm the evidence exists
+  ansible.builtin.stat:
+    path: "{{ repo_root }}/artifacts/{{ item }}"
+  register: evidence
+  loop:
+    - REPORT.md
+    - comparison.csv
+    - screenshots/manifest.json
+
+- name: Fail when a piece of evidence is missing
+  ansible.builtin.assert:
+    that: item.stat.exists
+    fail_msg: "missing artifact: {{ item.item }}"
+  loop: "{{ evidence.results }}"
+  loop_control:
+    label: "{{ item.item }}"

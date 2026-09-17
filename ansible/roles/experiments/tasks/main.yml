@@ -1,0 +1,38 @@
+---
+- name: Create the virtualenv and install the experiment dependencies
+  ansible.builtin.pip:
+    requirements: "{{ item }}"
+    virtualenv: "{{ venv }}"
+    virtualenv_command: "python3 -m venv"
+  loop:
+    - "{{ repo_root }}/experiments/requirements.txt"
+    - "{{ repo_root }}/capture/requirements.txt"
+
+- name: Resolve the tracking uri
+  ansible.builtin.command:
+    cmd: terraform -chdir=terraform output -raw tracking_server_arn
+    chdir: "{{ repo_root }}"
+  register: tracking_uri
+  changed_when: false
+
+- name: Run the tabular bake-off
+  ansible.builtin.command:
+    cmd: "{{ venv }}/bin/python experiments/tabular_bakeoff.py"
+    chdir: "{{ repo_root }}"
+  environment:
+    MLFLOW_TRACKING_URI: "{{ tracking_uri.stdout | trim }}"
+  register: tabular
+  changed_when: true
+
+- name: Run the router bake-off
+  ansible.builtin.command:
+    cmd: "{{ venv }}/bin/python experiments/router_bakeoff.py"
+    chdir: "{{ repo_root }}"
+  environment:
+    MLFLOW_TRACKING_URI: "{{ tracking_uri.stdout | trim }}"
+  register: router
+  changed_when: true
+
+- name: Show what was logged
+  ansible.builtin.debug:
+    msg: "{{ (tabular.stdout_lines | default([])) + (router.stdout_lines | default([])) }}"

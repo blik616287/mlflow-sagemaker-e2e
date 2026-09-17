@@ -1,0 +1,13 @@
+{
+  "_note": "USD per 1000 tokens, Bedrock on-demand STANDARD tier. Pulled from the AWS Pricing API (not typed from a web page), region us-east-2. Batch/flex/priority tiers differ; this file is logged as an artifact on every router run so any figure in a chart traces back to its input.",
+  "_source": "aws pricing get-products --service-code AmazonBedrock --region-code us-east-2, retrieved 2026-09-17",
+  "nvidia.nemotron-nano-12b-v2":    {"in": 0.00020, "out": 0.00060},
+  "qwen.qwen3-next-80b-a3b":        {"in": 0.00014, "out": 0.00120},
+  "qwen.qwen3-235b-a22b-2507-v1:0": {"in": 0.00022, "out": 0.00088},
+  "nvidia.nemotron-nano-3-30b":     {"in": 0.00020, "out": 0.00060},
+  "deepseek.v3.2":                  {"in": 0.00028, "out": 0.00042},
+  "moonshotai.kimi-k2.5":           {"in": 0.00060, "out": 0.00250},
+  "mock-small":  {"in": 0.00025, "out": 0.00125},
+  "mock-medium": {"in": 0.0008,  "out": 0.004},
+  "mock-large":  {"in": 0.003,   "out": 0.015}
+}

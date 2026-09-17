@@ -1,0 +1,25 @@
+{"id": "arith-01", "tier": "easy", "prompt": "What is 17 + 26? Reply with the number only.", "expect": "43"}
+{"id": "arith-02", "tier": "easy", "prompt": "What is 144 divided by 12? Reply with the number only.", "expect": "12"}
+{"id": "arith-03", "tier": "easy", "prompt": "What is 9 times 8? Reply with the number only.", "expect": "72"}
+{"id": "arith-04", "tier": "hard", "prompt": "A server bills $0.642 per hour. What is the cost of 37 hours, rounded to two decimals? Reply with the number only, no currency symbol.", "expect": "23.75"}
+{"id": "arith-05", "tier": "hard", "prompt": "If a job takes 1350 seconds, how many whole minutes is that? Reply with the number only.", "expect": "22"}
+{"id": "extract-01", "tier": "easy", "prompt": "Extract the region from this ARN and reply with it only: arn:aws:sagemaker:us-east-2:123456789012:mlflow-tracking-server/demo", "expect": "us-east-2"}
+{"id": "extract-02", "tier": "easy", "prompt": "Extract the bucket name and reply with it only: s3://jreq-mlflow-artifacts-000/mlflow/1/abc", "expect": "jreq-mlflow-artifacts-000"}
+{"id": "extract-03", "tier": "hard", "prompt": "From the line 'level=error ts=2026-09-17T04:11:02Z msg=\"tracking server unreachable\" code=503', reply with the value of code only.", "expect": "503"}
+{"id": "extract-04", "tier": "hard", "prompt": "From 'GET /api/2.0/mlflow/runs/search 200 41ms', reply with the latency in milliseconds as a bare number.", "expect": "41"}
+{"id": "classify-01", "tier": "easy", "prompt": "Is 'roc_auc' a metric or a parameter in MLflow terms? Reply with exactly one word: metric or parameter.", "expect": "metric"}
+{"id": "classify-02", "tier": "easy", "prompt": "Is 'learning_rate' a metric or a parameter in MLflow terms? Reply with exactly one word: metric or parameter.", "expect": "parameter"}
+{"id": "classify-03", "tier": "hard", "prompt": "An MLflow tracking server reports status 'CreateFailed'. Is that terminal or transient? Reply with exactly one word: terminal or transient.", "expect": "terminal"}
+{"id": "classify-04", "tier": "hard", "prompt": "An MLflow tracking server reports status 'Creating'. Is that terminal or transient? Reply with exactly one word: terminal or transient.", "expect": "transient"}
+{"id": "recall-01", "tier": "easy", "prompt": "What port does an open-source MLflow tracking server listen on by default? Reply with the number only.", "expect": "5000"}
+{"id": "recall-02", "tier": "easy", "prompt": "Which AWS service provides a fully managed MLflow tracking server? Reply with the service name only.", "expect": "sagemaker"}
+{"id": "recall-03", "tier": "hard", "prompt": "Which MLflow entity holds a named, versioned model with aliases? Reply with exactly two words.", "expect": "model registry"}
+{"id": "recall-04", "tier": "hard", "prompt": "In MLflow, what is the name of the object that records a single training execution? Reply with one word.", "expect": "run"}
+{"id": "format-01", "tier": "easy", "prompt": "Reply with the lowercase word 'ok' and nothing else.", "expect": "ok"}
+{"id": "format-02", "tier": "easy", "prompt": "Reply with exactly the string PASS in uppercase and nothing else.", "expect": "pass"}
+{"id": "format-03", "tier": "hard", "prompt": "Convert 0.8162 to a percentage with one decimal place. Reply with the number and a percent sign only.", "expect": "81.6%"}
+{"id": "format-04", "tier": "hard", "prompt": "Round 0.6423 to three decimal places. Reply with the number only.", "expect": "0.642"}
+{"id": "reason-01", "tier": "hard", "prompt": "Model A has AUC 0.813 and fits in 11s. Model B has AUC 0.816 and fits in 7s. Which is better on both axes? Reply with a single letter: A or B.", "expect": "b"}
+{"id": "reason-02", "tier": "hard", "prompt": "A tracking server costs $0.642/hr running and $0 stopped. Over a 24h day it runs 3h. What is the day's compute cost to two decimals? Reply with the number only.", "expect": "1.93"}
+{"id": "reason-03", "tier": "hard", "prompt": "Runs A(auc=0.79,cost=1.0) B(auc=0.84,cost=4.0) C(auc=0.83,cost=1.2). Which run is on the cost/quality frontier at the lowest cost above auc 0.80? Reply with a single letter.", "expect": "c"}
+{"id": "reason-04", "tier": "easy", "prompt": "If 14 runs are logged and 1 is registered as champion, how many are not registered? Reply with the number only.", "expect": "13"}
