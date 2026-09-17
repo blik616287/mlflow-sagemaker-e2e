@@ -265,7 +265,9 @@ def capture(args) -> int:
                 continue
 
             target_url = base + route
-            record["url"] = target_url
+            # The manifest is published. The route is the useful part; the
+            # host identifies the account as surely as the account id does.
+            record["url"] = "<tracking-server>/" + route
             try:
                 page.goto(target_url, wait_until="domcontentloaded")
                 page.wait_for_load_state("networkidle")
