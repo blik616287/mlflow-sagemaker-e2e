@@ -13,6 +13,21 @@ hour and a dollar to regenerate from scratch.
 > screen grabs, measured cost, the seven things that broke on the way, and
 > primary-source citations for every figure.
 
+## What the output looks like
+
+Eight of fourteen candidates compared in one view — model family, learning rate and
+tree depth on the left axes, held-out ROC AUC on the right, one line per run:
+
+![MLflow compare-runs parallel coordinates: eight tabular model runs plotted across family, learning_rate and max_depth against roc_auc, with the run detail table below](artifacts/screenshots/03-tabular-compare-parallel-coordinates.png)
+
+Captured headlessly against the live server by `capture/shoot.py`, which resolves the
+ids of the runs that were just logged, mints a presigned UI URL, and drives each of the
+twelve views in [`capture/shots.yaml`](capture/shots.yaml). Nine are required-to-render:
+if one comes back empty or suspiciously small, the capture step fails and names it.
+
+The other eleven are in [`artifacts/screenshots/`](artifacts/screenshots/), with
+[`contact-sheet.png`](artifacts/contact-sheet.png) showing all of them at once.
+
 ## What gets built
 
 | | |
