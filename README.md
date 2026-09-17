@@ -10,7 +10,7 @@ with output comparing models" has a reproducible answer that takes about an
 hour and a dollar to regenerate from scratch.
 
 > **[Read the results →](RESULTS.md)** — both bake-off tables, the twelve UI
-> screen grabs, measured cost, the seven things that broke on the way, and
+> screen grabs, measured cost, the nine things that broke on the way, and
 > primary-source citations for every figure.
 
 ## What the output looks like
