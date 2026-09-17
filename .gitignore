@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.pyc
+
+# Local state and anything account-specific
+terraform/.terraform/
+terraform/terraform.tfvars
+terraform/*.tfstate
+terraform/*.tfstate.*
+terraform/plan.out
+
+# Raw run record: keeps the unredacted account id / ARNs. RESULTS.md is the
+# published writeup; this stays local.
+artifacts/REPORT.md
+artifacts/s3-mlflow/
